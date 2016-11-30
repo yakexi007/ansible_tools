@@ -66,7 +66,7 @@ if __name__ == '__main__':
         print '\033[31m-h or --help for detail\033[0m'
         sys.exit(1)
 
-    rpmdict = {'metaq':'metaq.zuche4.0.0-1.el6.x86_64.rpm', 'memcache':'memcached.zuche-1.4.25-1.el6.x86_64.rpm', 'redis':'redis.zuche-2.8.24-1.el6.x86_64.rpm','zk':'zk.zuche-1.0.0-1.el6.x86_64.rpm','nginx':'nginx.zuche-1.5.2-1.el6.x86_64.rpm','tomcat':'tomcat.zuche-6.0.45-1.el6.x86_64.rpm' }
+    rpmdict = {'metaq':'metaq.zuche-1.0.0-1.el6.x86_64.rpm', 'memcache':'memcached.zuche-1.4.25-1.el6.x86_64.rpm', 'redis':'redis.zuche-2.8.24-1.el6.x86_64.rpm','zk':'zk.zuche-1.0.0-1.el6.x86_64.rpm','nginx':'nginx.zuche-1.5.2-1.el6.x86_64.rpm','tomcat':'tomcat.zuche-6.0.45-1.el6.x86_64.rpm' }
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-r',required=True, help='rpmname example: \033[33mmetaq memcache redis zk nginx tomcat\033[0m')

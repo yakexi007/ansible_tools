@@ -1,8 +1,8 @@
--   name:   send context to tomcat server
+-   name:   install RPM to remote host
     hosts:  all
     gather_facts:   false
     #vars:
-    #-   prejectname:    "fcarweb"
+    #-   test:    "car"
     tasks:
     -   name:   send file
         sudo:   yes
@@ -11,5 +11,10 @@
 
     -   name:   install rpm
         sudo:   yes
-        shell:  rpm -ivh /tmp/{{ rpmName }}
+        yum:    name=/tmp/{{ rpmName }}
         tags:   install
+
+    -   name:   delete rpm
+        sudo:   yes
+        file:   path=/tmp/{{ rpmName }} state=absent
+        tags:   delete
