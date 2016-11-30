@@ -1,0 +1,61 @@
+- name: metaq to flexibeq
+  hosts: bj1
+  user: zhangjun
+  gather_facts: false
+  tasks:
+  - name: backup flexibeq Server.ini
+    sudo: yes
+    copy: src=/usr/local/flexibleq/conf/server.ini dest=/usr/local/flexibleq/conf/server.ini.audobak
+    ignore_errors: True
+    tags: up
+
+  - name: copy file
+    sudo: yes
+    copy: src=./metaq2flexibleq.tgz dest=/usr/local/metaq2flexibleq.tgz
+    register: sendFileResults
+    tags: up
+
+  - name: extract file
+    sudo: yes
+    shell: "cd /usr/local/ && tar xfz metaq2flexibleq.tgz"
+    when: sendFileResults.changed == True
+    tags: up
+
+  - name: cp conf file
+    sudo: yes
+    shell: "cp /usr/local/metaq/conf/server.ini /usr/local/flexibleq/conf/server.ini"
+    when: sendFileResults.changed == True
+    tags: up
+
+  - name: sed conf data path
+    sudo: yes
+    shell: 'sed -i "s#\/usr\/local\/metaq\/data\/#\/usr\/local\/flexibleq\/data\/#" /usr/local/flexibleq/conf/server.ini'
+    when: sendFileResults.changed == True
+    tags: up
+
+  - name: chown file
+    sudo: yes
+    shell: "chown -R root:root /usr/local/flexibleq"
+    when: sendFileResults.changed == True
+    tags: up
+
+  - name: chmod file
+    sudo: yes
+    shell: "chmod 755 /usr/local/flexibleq/bin/*.sh"
+    when: sendFileResults.changed == True
+    tags: up
+
+  - name: create service link
+    sudo: yes
+    file: src=/data dest=/usr/local/flexibleq/data state=link
+    tags: up
+
+  - name: mv old metaqFile
+    sudo: yes
+    shell: "cd /usr/local/ && mv metaq metaq.bak"
+    tags: clear
+
+  - name: ln flexibeq metaq
+    sudo: yes
+    shell: "ln -s /usr/local/flexibleq /usr/local/metaq"
+    tags: clear
