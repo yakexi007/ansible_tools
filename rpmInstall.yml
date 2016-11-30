@@ -1,0 +1,15 @@
+-   name:   send context to tomcat server
+    hosts:  all
+    gather_facts:   false
+    #vars:
+    #-   prejectname:    "fcarweb"
+    tasks:
+    -   name:   send file
+        sudo:   yes
+        copy:   src=/usr/local/repo/{{ rpmName }} dest=/tmp/{{ rpmName }}
+        tags:   cpfile
+
+    -   name:   install rpm
+        sudo:   yes
+        shell:  rpm -ivh /tmp/{{ rpmName }}
+        tags:   install
