@@ -71,8 +71,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-r',required=True, help='rpmname example: \033[33mmetaq memcache redis zk nginx tomcat\033[0m')
     parser.add_argument('--host', required=True, help='host example: \037[32m10.1.1.1,10.1.1.2,10.1.1.3\033[0m')
-    parser.add_argument('-u', required=True, help='username')
-    parser.add_argument('-p', required=True,action=PasswordPromptAction, type=str, help='password')
+    parser.add_argument('-u', required=True, help='remote username')
+    parser.add_argument('-p', required=True,action=PasswordPromptAction, type=str, help='remote user password')
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     results = parser.parse_args()
 
