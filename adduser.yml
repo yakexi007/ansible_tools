@@ -1,0 +1,23 @@
+- name:  add user
+  hosts: all
+  vars:
+    user: username
+    password: "$6$rounds=100000$O2BHfT2XIF6oDb9w$8Hhv4vOrLN6JF/nRVYDd8zZdnn9TNkQutyYYywIcPF2kRiHgkwAjqHIN7sDUkd1DcjLRABWT9ULHZPBOF2bZS/"
+  remote_user: zhangjun13
+  tasks:
+  - name: Add user {{ user }}
+    user: name={{user}} comment="ops user" password={{ password }} group=zucheops
+
+
+  - name: deliver {{ user }} authorized_keys
+    authorized_key:
+        user: "{{ user }}"
+        key: "{{ lookup('file', '/home/username/.ssh/authorized_keys') }}"  # 从本地authorized_keys文件读取公钥内容
+        state: present
+        exclusive: no
+
+  #- name: Config /etc/sudoers
+  #  lineinfile: dest=/etc/sudoers state=present  line='{{item}}' validate='visudo -cf %s'
+  #  with_items:
+  #         - "{{ user}} ALL=(ALL) NOPASSWD: ALL"
+  #         - "Defaults: {{user}}  !requiretty"
